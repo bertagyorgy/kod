@@ -1,0 +1,120 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace _20241114_etlap
+{
+    class Etel
+    {
+        public string neve, tipusa;
+        public int ara;
+        public Etel(string egysor)
+        {
+            string[] darabok = egysor.Trim().Split('\t');
+            neve = darabok[0];
+            ara = int.Parse(darabok[1]);
+            tipusa = darabok[2].ToLower();
+        }
+    }
+    class Program
+    {
+        static List<Etel> etelek = new List<Etel>();
+        static void Main(string[] args)
+        {
+            f1();
+            f2();
+            f3();
+            f4();
+            f5();
+            f6();
+            Console.ReadLine();
+        }
+
+        static void f1()
+        {
+            string[] beolvas = File.ReadAllLines("etelek.txt", Encoding.Default);
+            foreach (var item in beolvas)
+            {
+                etelek.Add(new Etel(item));
+            }
+        }
+        static void f2()
+        {
+            Console.WriteLine($"2. feladat: Az étterem {etelek.Count} féle ételt kínál.");
+        }
+        static void f3()
+        {
+            int db_leves = 0, osszar = 0;
+            foreach (var item in etelek)
+            {
+                if (item.tipusa=="leves")
+                {
+                    db_leves++;
+                    osszar = osszar + item.ara;
+                }
+            }
+            Console.WriteLine($"3. feladat: A levesek átlagos ára {(double)osszar/db_leves} forint.");
+
+        }
+        static void f4()
+        {
+            int db_foetel = 0;
+            foreach (var item in etelek)
+            {
+                if (item.tipusa=="főétel")
+                {
+                    db_foetel++;
+                }
+            }
+            Console.WriteLine($"4. feladat: {db_foetel} féle főétel közül lehet választani");
+        }
+        static void f5()
+        {
+            foreach (var item in etelek)
+            {
+                if (item.neve.ToLower().Contains("liba"))
+                {
+                    Console.WriteLine(item.neve);
+                }
+            }
+        }
+        static void f6()
+        {
+            int legdragabb = 0;
+            string desszert = "";
+            foreach (var item in etelek)
+            {
+                if (item.ara > legdragabb && item.tipusa == "desszert") 
+                {
+                    legdragabb = item.ara;
+                    desszert = item.neve;
+                }
+            }
+            if (legdragabb == 0)
+            {
+                Console.WriteLine("Nincs desszert");
+            }
+            else
+            {
+                Console.WriteLine($"6. feladat: A legdrágább desszert: {desszert}");
+            }
+            
+        }
+        static void f7()
+        {
+            Console.WriteLine("Főételt vagy tésztát kérsz: ");
+            string eteltipus = Console.ReadLine();
+            if (eteltipus=="főétel")
+            {
+
+            }
+            else if (eteltipus=="tészta")
+            {
+
+            }
+        }
+    }
+}
